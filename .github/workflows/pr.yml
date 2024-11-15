@@ -8,12 +8,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4.1.7
+      - name: Validate Permissions Against Schema II
+        uses: ammarlakis/action-ajv@master
+        with:
+          schema: schemas/permissions.schema
+          data: configs/*/permissions/*.json
+          allErrors: true
+          verbose: true
       - name: Validate Permissions Against Schema
         uses: walbo/validate-json@v1.1.0
         with:
           files: ./configs/*/permissions/*.json
           schema: ./schemas/permissions.schema
           print-valid-files: true
+      - name: Validate Roles Against Schema II
+        uses: ammarlakis/action-ajv@master
+        with:
+          schema: schemas/roles.schema
+          data: configs/*/roles/*.json
+          allErrors: true
+          verbose: true
       - name: Validate Roles Against Schema
         uses: walbo/validate-json@v1.1.0
         with:
